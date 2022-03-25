@@ -14,6 +14,9 @@
      // função para realizar o insert no BD 
     function insertContato($dadosContato)
     {   
+
+        // declaraçãpo de variavel para utilizar no return
+        $statusResposta = (boolean) false;
         //Abre a conexão com o BD
         $conexao = conexaoMysql();
         
@@ -37,14 +40,14 @@
         {    
             //para verificar se uma linha foi acrescentada no BD
             if(mysqli_affected_rows($conexao)){
-                return true;
-            }else{
-                return false;
+                
+                $statusResposta = true;
             }
 
-        }else {
-            return false;
         }
+        //solicita o fechamento da conexão do banco
+        fecharConexaoMysql($conexao);
+        return $statusResposta;
     }
     // função para realizar o update no BD 
     function updateContato()
@@ -52,9 +55,25 @@
 
     }
     // função para excluuir no BD 
-    function deleteContato()
-    {
-         
+    function deleteContato($id)
+    {   
+        //abre a conexão com banco de dados
+        $conexao = conexaoMysql();
+        //script para deletar regstros do BD
+        $sql = "delete from tblcontatos where idcontato=".$id;
+        //valida se o script está correto, sem erro de sintaxe e executa no BD
+        if(mysqli_query($conexao, $sql))
+        {   
+           //valida se o BD teve sucesso na execução do script 
+           if( mysqli_affected_rows($conexao))
+           {
+               $statusResposta = true;
+
+           }
+           fecharConexaoMysql($conexao);
+           return $statusResposta; 
+        }
+
     }   
     // função para realizar o insert no BD 
     function selectAllContatos()
@@ -62,7 +81,7 @@
         //Abre a conexão com o BD
         $conexao = conexaoMysql();
         //script para listar todos os dados do banco de dados
-        $sql = "select * from tblcontatos";        
+        $sql = "select * from tblcontatos order by idcontato desc";        
         //executa o script sql no BD e guarda o retorno dos dados, se houver
         $result = mysqli_query($conexao, $sql);
         //Valida se o BD retornou registros
@@ -77,6 +96,7 @@
             {   
                 //Cria um array com os dados do BD
                 $arrayDados[$cont] = array (
+                    "id"        => $rsDados['idcontato'],
                     "nome"      => $rsDados['nome'],
                     "telefone"  => $rsDados['telefone'],
                     "celular"   => $rsDados['celular'],
@@ -86,6 +106,10 @@
                 $cont++;
             }
         }
+
+        //solicita o fechamento da conexão com o BD
+        fecharConexaoMysql($conexao);
+
         return $arrayDados;
 
     }

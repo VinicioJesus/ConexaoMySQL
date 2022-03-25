@@ -11,10 +11,14 @@ const SERVER = 'localhost';
 const USER = 'root';
 const PASSWORD = 'bcd127';
 const DATABASE = 'dbcontatos';
+
+
+
 // echo "<pre>";
 //  $resultado = conexaoMysql();
 //  print_r($resultado);
 // echo "</pre>";
+
 //Abre a conexão com o BD Mysql
 function conexaoMysql ()
 {   
@@ -30,6 +34,12 @@ function conexaoMysql ()
         return false;
     
 }
+
+function fecharConexaoMysql($conexao)
+{
+    mysqli_close($conexao);
+}
+
 
 /*   quando tiver numero inteiro, não coloque aspas simples, coloque aspas duplas. o RESTO é simples       */
 

@@ -82,14 +82,17 @@
                 </tr>
 
                 <?php 
+                    //import do arquivo do controller para solicitar a listagem dos dados
                     require_once('controller/controllerContatos.php');
-                    $listContatos = listarContato();
+                    //chama a função que vai retornar os dados do contato
+                    $listContato = listarContato();
+
+                    // estrutura de repetição para retorar os dados do array
+                    // e printar na tela
                     foreach ($listContato as $item)
-                    {
+                    {                  
                     
-                    
-                ?>
-                
+                ?>        
                
                 <tr id="tblLinhas">
                     <td class="tblColunas registros"><?=$item['nome']?></td>
@@ -98,7 +101,10 @@
                    
                     <td class="tblColunas registros">
                             <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
-                            <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+                            <a href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">
+
+                                <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+                            </a>
                             <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar">
                     </td>
                 </tr>

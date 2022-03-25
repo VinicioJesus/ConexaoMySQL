@@ -2,13 +2,14 @@
 /*
 comentario em bloco
 */
-#cria um database
-create database dbcontatos;
+
 
 #é obrigatório escolher o database que será utilizado
 use dbcontatos;
+
+#cria um database
+create database dbcontatos;
 show tables;
-desc tblcontatos;
 
 create table tblcontatos (
 	idcontato int not null auto_increment primary key,
@@ -18,18 +19,17 @@ create table tblcontatos (
     email varchar(320) not null,
     obs text    
 );
-
-show tables;
-
 select * from tblcontatos;
 
 insert into tblcontatos (nome, telefone, celular, email, obs)
-	values ('(011)4772-4800', '(011)97878-0777',
-    'maria@gmail.com', 'testando o mysql');
+	values ('Carlao','(011)4772-4800', '(011)97878-0777',
+    'maria@gmail.com', 'testando o mysql');   
 
-    
-
-select * from tblcontatos;
+select * from tblcontatos order by idcontato desc;
+insert into tblcontatos (nome, telefone, celular, email, obs)
+	values ('Carlao','(011)4772-4800', '(011)97878-0777',
+    'maria@gmail.com', 'testando o mysql'); 
+delete from tblcontatos where idcontato = 3;
 
 desc tblcontatos
 

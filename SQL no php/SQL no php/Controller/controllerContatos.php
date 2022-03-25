@@ -59,9 +59,30 @@
     }
 
     //função para realizar a exclusão de um contato
-    function excluirContato()
-    {
-
+    function excluirContato($id)
+    {   
+        //validação para verificar se o id contem um numero valido
+        if($id != 0 && !empty($id) && is_numeric($id))
+        {   
+            //import do arquivo de contato
+            require_once("model/bd/contato.php");
+            //chama a função da model e valida se o retorno foi verdadeiro ou false
+            if(deleteContato($id))
+            {   
+                return true;
+            }
+            else
+            {
+                return array('idErro'   => 3,
+                             'message'   => 'não foi possivel excluir o registro' );
+                
+            }
+        }
+        else
+        {
+            return array('idErro'   => 4,
+                        'message'   => 'não é possivel excluir um registro sem informar um id valido' );
+        }
     }
 
     //função para solicitar os dados da model e encaminhar a lista 
@@ -73,8 +94,11 @@
         //Chama a função que vai buscar os dados no BD
         $dados = selectAllContatos();
 
+        
+
         if (!empty($dados)) {
             return $dados;
+            
         }else{
             return false;
         }

@@ -15,11 +15,13 @@
  
     
     //Validação para verificar se a requisição é um POST  de um formulário
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' || $_SERVER['REQUEST_METHOD'] == 'GET' ) 
     {
         //Recebendo dados via URL para saber quem esta solicitando e qual ação será realizada
         $component = strtoupper($_GET['component']);
         $action = strtoupper ($_GET['action']);
+
+        
 
         switch ($component) 
         {
@@ -38,7 +40,7 @@
                         if($resposta)
                         echo ("<script>
                               alert('Registro inserido com suceso!');
-                              window.location.hfef = 'index.php';
+                              window.location.href = 'index.php';
                               </script> ");
                     //Se o retorno for um array significa houve erro no processo de inserção
                     }elseif (is_array($resposta)){
@@ -46,6 +48,29 @@
                               alert('".$resposta['message']."');
                               window.history.back();
                               </script> "); // window.location.hfef = 'index.php';
+                    }
+                }elseif ($action == 'DELETAR') {
+                    //recebe o id do registro que deverá ser excluido, que foi enviado 
+                    //pela URL no link da imagem do excluir que foi acionado na index
+                    $idContato = $_GET['id'];                     
+
+                    $resposta = excluirContato($idContato);
+
+                    if(is_bool($resposta))
+                    {
+                        if ($resposta) {
+                            echo("<script>
+                                    alert('Registro excluido com suceso!');
+                                    window.location.href = 'index.php';
+                                  </script> ");
+                        }
+                    }elseif (is_array($resposta)) 
+                    {
+                        echo ("<script>
+                        
+                                alert('".$resposta['message']."');
+                                window.history.back();
+                              </script> ");
                     }
                 }
                 
