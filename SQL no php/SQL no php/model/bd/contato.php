@@ -90,7 +90,7 @@
             // msqli_fetch_assoc() - permite converter os dados do BD
                 // em um arrau para manipulação no PHP.
             // Nesta repetição estamos, convertendo os dados do BD em um array ($rsDados), além de
-            //o proprio while consegue gerenciar a qtde e vezes que o deverá ser feita a repetição
+            //o if vai garantir que tem dados na condição.
             $cont = 0;
             while ($rsDados = mysqli_fetch_assoc($result))
             {   
@@ -110,6 +110,45 @@
         //solicita o fechamento da conexão com o BD
         fecharConexaoMysql($conexao);
 
+        return $arrayDados;
+
+    }
+    //Função para buscar contato no banco de dados através do registro
+    function selectByIdContato($id)
+    {
+        //Abre a conexão com o BD
+        $conexao = conexaoMysql();
+        //script para listar todos os dados do banco de dados
+        $sql = "select * from tblcontatos where idcontato= ".$id;     
+        
+        //executa o script sql no BD e guarda o retorno dos dados, se houver
+        $result = mysqli_query($conexao, $sql);
+        //Valida se o BD retornou registros
+        if($result)
+        {   
+            // msqli_fetch_assoc() - permite converter os dados do BD
+                // em um arrau para manipulação no PHP.
+            // Nesta repetição estamos, convertendo os dados do BD em um array ($rsDados), além de
+            //o proprio while consegue gerenciar a qtde e vezes que o deverá ser feita a repetição
+            
+            if($rsDados = mysqli_fetch_assoc($result))
+            {   
+                //Cria um array com os dados do BD
+                $arrayDados = array (
+                    "id"        => $rsDados['idcontato'],
+                    "nome"      => $rsDados['nome'],
+                    "telefone"  => $rsDados['telefone'],
+                    "celular"   => $rsDados['celular'],
+                    "email"     => $rsDados['email'],
+                    "obs"       => $rsDados['obs']
+                );
+                
+            }
+        }
+
+        //solicita o fechamento da conexão com o BD
+        fecharConexaoMysql($conexao);
+        
         return $arrayDados;
 
     }
